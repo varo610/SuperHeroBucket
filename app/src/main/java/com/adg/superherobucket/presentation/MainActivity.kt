@@ -14,9 +14,9 @@ class MainActivity : AppCompatActivity() {
 
     private val viewModel : MainViewModel by viewModel()
 
-    private val constraintSet1 = ConstraintSet()
-    private val constraintSet2 = ConstraintSet()
-    private var changed = false
+    private val searchHiddenCS = ConstraintSet()
+    private val searchVisibleCS = ConstraintSet()
+    private var searchHidden = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,8 +30,8 @@ class MainActivity : AppCompatActivity() {
     private fun setupView() {
         setSupportActionBar(toolbar)
 
-        constraintSet1.clone(constraintLayout)
-        constraintSet2.clone(this, R.layout.activity_main_alt)
+        searchHiddenCS.clone(constraintLayout)
+        searchVisibleCS.clone(this, R.layout.activity_main_alt)
 
     }
 
@@ -44,10 +44,10 @@ class MainActivity : AppCompatActivity() {
 
         when(item?.itemId){
             R.id.action_search -> {
+                searchHidden = !searchHidden
                 TransitionManager.beginDelayedTransition(constraintLayout)
-                val constraint = if (changed) constraintSet1 else constraintSet2
+                val constraint = if (searchHidden) searchHiddenCS else searchVisibleCS
                 constraint.applyTo(constraintLayout)
-                changed = !changed
             }
         }
 
