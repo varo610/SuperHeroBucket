@@ -2,6 +2,7 @@ package com.adg.superherobucket
 
 import android.app.Application
 import com.adg.superherobucket.viewModelModule
+import com.facebook.stetho.Stetho
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
@@ -18,9 +19,15 @@ class SuperHeroBucketApplication : Application() {
 
             androidContext(this@SuperHeroBucketApplication)
 
-            modules(viewModelModule)
+            modules(
+                viewModelModule,
+                domainModule,
+                dataModule,
+                networkModule)
 
         }
+
+        Stetho.initializeWithDefaults(this);
 
     }
 
