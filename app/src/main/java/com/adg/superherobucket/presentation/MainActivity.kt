@@ -1,13 +1,9 @@
 package com.adg.superherobucket.presentation
 
-import android.annotation.SuppressLint
 import android.arch.lifecycle.Observer
-import android.os.Bundle
+import android.content.Intent
 import android.support.constraint.ConstraintSet
-import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
-import android.text.Editable
-import android.text.TextWatcher
 import android.transition.TransitionManager
 import android.view.Menu
 import android.view.MenuItem
@@ -15,45 +11,28 @@ import android.view.View.GONE
 import android.view.View.VISIBLE
 import com.adg.superherobucket.R
 import com.adg.superherobucket.presentation.model.MainViewState
+import com.adg.superherobucket.presentation.model.SuperHero
 import com.jakewharton.rxbinding3.widget.textChanges
-import io.reactivex.Observable
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.activity_main.*
 import org.koin.android.viewmodel.ext.android.viewModel
 import java.util.concurrent.TimeUnit
 
 
-class MainActivity : AppCompatActivity() {
-
-    private val viewModel: MainViewModel by viewModel()
-
-    private val compositeDisposable = CompositeDisposable()
+class MainActivity : BaseActivity<MainViewState, MainViewModel>() {
 
     private val searchHiddenCS = ConstraintSet()
     private val searchVisibleCS = ConstraintSet()
     private var searchHidden = true
 
-    private val adapter = MainAdapter()
+    private val adapter = MainAdapter(itemClick = {viewModel.superHeroOnClick(it)})
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+    //region [BaseActivityImp]
 
-        setupView()
+    override val internalViewModel by viewModel<MainViewModel>()
 
-        viewModel.mainViewState.observe(this, Observer { manageViewState(it) })
+    override fun getLayoutId(): Int = R.layout.activity_main
 
-    }
-
-    override fun onDestroy() {
-
-        compositeDisposable.dispose()
-
-        super.onDestroy()
-    }
-
-    private fun setupView() {
+    override fun setupView() {
 
         setSupportActionBar(toolbar)
 
@@ -70,7 +49,37 @@ class MainActivity : AppCompatActivity() {
         superHeroesRV.layoutManager = LinearLayoutManager(this)
         superHeroesRV.adapter = adapter
 
+        viewModel.navigateToDetails.observe(this, Observer { gotToDetail(it) })
+
     }
+
+    override fun manageViewState(viewState: MainViewState?) {
+
+        viewState?.let {state ->
+
+            state.superHeroList.let { list ->
+
+                emptyListIV.visibility = if (list.isEmpty()) VISIBLE else GONE
+                emptyListTV.visibility = if (list.isEmpty()) VISIBLE else GONE
+                superHeroesRV.visibility = if (list.isNotEmpty()) VISIBLE else GONE
+
+                adapter.submitList(list)
+
+            }
+
+        }
+
+    }
+
+    private fun gotToDetail(superHero: SuperHero?){
+        superHero?.let {
+            val intent = Intent(applicationContext, DetailActivity::class.java)
+            intent.putExtra(DetailActivity.SUPER_HERO_EXTRA,it)
+            startActivity(intent)
+        }
+    }
+
+    //endregion [BaseActivityImp]
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.main_menu, menu)
@@ -89,23 +98,6 @@ class MainActivity : AppCompatActivity() {
         }
 
         return super.onOptionsItemSelected(item)
-    }
-
-    private fun manageViewState(mainViewState: MainViewState?) {
-
-        mainViewState?.let {
-            it.superHeroList.let { list ->
-
-
-                emptyListIV.visibility = if (list.isEmpty()) VISIBLE else GONE
-                emptyListTV.visibility = if (list.isEmpty()) VISIBLE else GONE
-                superHeroesRV.visibility = if (list.isNotEmpty()) VISIBLE else GONE
-
-                adapter.submitList(list)
-
-            }
-        }
-
     }
 
 }

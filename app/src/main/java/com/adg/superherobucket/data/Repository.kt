@@ -2,14 +2,14 @@ package com.adg.superherobucket.data
 
 import com.adg.superherobucket.data.network.NetworkDatasource
 import com.adg.superherobucket.data.network.model.mapToDomain
-import com.adg.superherobucket.domain.model.SuperHero
+import com.adg.superherobucket.domain.model.DomainSuperHero
 import io.reactivex.Single
 
 class Repository constructor(
     private val networkDatasource: NetworkDatasource
 ) {
 
-    fun searchSuperHeroes(search: String): Single<List<SuperHero>> {
+    fun searchSuperHeroes(search: String): Single<List<DomainSuperHero>> {
         return networkDatasource.searchSuperHeroes(search)
             .map {apiSuperHeroList ->
                 apiSuperHeroList.map {

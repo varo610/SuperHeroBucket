@@ -2,25 +2,22 @@ package com.adg.superherobucket.data.network.model
 
 import com.adg.superherobucket.domain.model.*
 
-fun ApiSuperHero.mapToDomain(): SuperHero{
-    return SuperHero(
+fun ApiSuperHero.mapToDomain(): DomainSuperHero{
+    return DomainSuperHero(
         image = this.apiImage.mapToDomain(),
         appearance = this.apiAppearance.mapToDomain(),
         biography = this.apiBiography.mapToDomain(),
-        Connections = this.apiConnections.mapToDomain(),
         id = this.id,
-        name = this.name,
-        powerstats = this.apiPowerstats.mapToDomain(),
-        Work = this.apiWork.mapToDomain())
+        name = this.name)
 }
 
-fun ApiImage.mapToDomain(): Image{
-    return Image(
+fun ApiImage.mapToDomain(): DomainImage{
+    return DomainImage(
         url = this.url)
 }
 
-fun ApiAppearance.mapToDomain(): Appearance{
-    return Appearance(
+fun ApiAppearance.mapToDomain(): DomainAppearance{
+    return DomainAppearance(
         eyeColor = this.eyeColor,
         gender = this.gender,
         race = this.race,
@@ -29,8 +26,8 @@ fun ApiAppearance.mapToDomain(): Appearance{
         hairColor = this.hairColor)
 }
 
-fun ApiBiography.mapToDomain(): Biography{
-    return Biography(
+fun ApiBiography.mapToDomain(): DomainBiography{
+    return DomainBiography(
         placeOfBirth = this.placeOfBirth,
         aliases = this.aliases,
         firstAppearance = this.firstAppearance,
@@ -38,24 +35,4 @@ fun ApiBiography.mapToDomain(): Biography{
         alignment = this.alignment,
         fullName = this.fullName,
         alterEgos = this.alterEgos)
-}
-
-fun ApiConnections.mapToDomain(): Connections{
-    return Connections(
-        relatives = this.relatives,
-        groupAffiliation = this.groupAffiliation )
-}
-fun ApiPowerstats.mapToDomain(): Powerstats{
-    return Powerstats(
-        strength = this.strength,
-        durability = this.durability,
-        combat = this.combat,
-        power = this.power,
-        speed = this.speed,
-        intelligence = this.intelligence)
-}
-fun ApiWork.mapToDomain(): Work{
-    return Work(
-        occupation = this.occupation,
-        base = this.base)
 }

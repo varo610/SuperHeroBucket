@@ -1,21 +1,18 @@
 package com.adg.superherobucket.domain.model
 
-data class SuperHero(
-    val image: Image,
-    val appearance: Appearance,
-    val Work: Work,
+data class DomainSuperHero(
+    val image: DomainImage,
+    val appearance: DomainAppearance,
     val name: String,
-    val powerstats: Powerstats,
     val id: String,
-    val biography: Biography,
-    val Connections: Connections
+    val biography: DomainBiography
 )
 
-data class Image(
+data class DomainImage(
     val url: String
 )
 
-data class Appearance(
+data class DomainAppearance(
     val eyeColor: String,
     val gender: String,
     val race: String,
@@ -24,7 +21,7 @@ data class Appearance(
     val hairColor: String
 )
 
-data class Biography(
+data class DomainBiography(
     val placeOfBirth: String,
     val aliases: List<String?>,
     val firstAppearance: String,
@@ -32,23 +29,4 @@ data class Biography(
     val alignment: String,
     val fullName: String,
     val alterEgos: String
-)
-
-data class Connections(
-    val relatives: String,
-    val groupAffiliation: String
-)
-
-data class Powerstats(
-    val strength: String,
-    val durability: String,
-    val combat: String,
-    val power: String,
-    val speed: String,
-    val intelligence: String
-)
-
-data class Work(
-    val occupation: String,
-    val base: String
 )

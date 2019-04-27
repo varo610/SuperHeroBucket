@@ -1,21 +1,23 @@
 package com.adg.superherobucket.presentation
 
-import android.arch.lifecycle.MutableLiveData
-import android.arch.lifecycle.ViewModel
 import android.util.Log
 import com.adg.superherobucket.domain.SearchSuperHeroUseCase
 import com.adg.superherobucket.presentation.model.MainViewState
+import com.adg.superherobucket.presentation.model.SuperHero
+import com.adg.superherobucket.utils.SingleLiveEvent
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 
 class MainViewModel constructor(
     private val searchSuperHeroUseCase: SearchSuperHeroUseCase
-) : ViewModel() {
+) : BaseViewModel<MainViewState>() {
 
-    val mainViewState = MutableLiveData<MainViewState>()
+    val navigateToDetails = SingleLiveEvent<SuperHero>()
 
-    private val compositeDisposable = CompositeDisposable()
+
+    override fun onAttach() {
+        //TODO Get favs from DB
+    }
 
     fun search(text: String) {
         compositeDisposable.add(
@@ -23,19 +25,19 @@ class MainViewModel constructor(
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
-                    {
-                        mainViewState.postValue(MainViewState(it))
+                    { list ->
+                        viewState.postValue(MainViewState(list))
                     }, {
-                        //TODO fix
+                        //TODO manage error
                         Log.e("TEMP", it.toString())
                     }
                 )
         )
     }
 
-    override fun onCleared() {
-        compositeDisposable.dispose()
-        super.onCleared()
+    fun superHeroOnClick(id: String) {
+        val superHero = viewState.value?.superHeroList?.first { it.id == id }
+        navigateToDetails.postValue(superHero)
     }
 
 }

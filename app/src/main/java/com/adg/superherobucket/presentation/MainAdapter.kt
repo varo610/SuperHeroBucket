@@ -7,12 +7,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.adg.superherobucket.R
-import com.adg.superherobucket.domain.model.SuperHero
+import com.adg.superherobucket.presentation.model.SuperHero
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import kotlinx.android.synthetic.main.item_list_super_hero.view.*
 
-class MainAdapter : ListAdapter<SuperHero, MainAdapter.MainViewHolder>(CommentDiffCallback()) {
+class MainAdapter constructor(
+    private val itemClick: (String) -> Unit
+) : ListAdapter<SuperHero, MainAdapter.MainViewHolder>(SuperHeroDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainViewHolder =
         MainViewHolder(
@@ -29,15 +31,16 @@ class MainAdapter : ListAdapter<SuperHero, MainAdapter.MainViewHolder>(CommentDi
             itemView.nameTV.text = item.name
             itemView.fullnameTV.text = item.biography.fullName
             Glide
-                .with(itemView.superHeroIV)
+                .with(itemView.contentIV)
                 .load(item.image.url)
                 .apply(RequestOptions.circleCropTransform())
-                .into(itemView.superHeroIV)
+                .into(itemView.contentIV)
+            itemView.setOnClickListener { itemClick.invoke(item.id) }
         }
     }
 }
 
-private class CommentDiffCallback : DiffUtil.ItemCallback<SuperHero>() {
+private class SuperHeroDiffCallback : DiffUtil.ItemCallback<SuperHero>() {
     override fun areItemsTheSame(oldItem: SuperHero, newItem: SuperHero): Boolean =
         oldItem.id == newItem.id
 

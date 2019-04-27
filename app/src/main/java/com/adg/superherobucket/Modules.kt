@@ -6,6 +6,7 @@ import com.adg.superherobucket.data.network.NetworkDatasource
 import com.adg.superherobucket.data.network.NetworkDatasourceImp
 import com.adg.superherobucket.data.network.SuperHeroApiService
 import com.adg.superherobucket.domain.SearchSuperHeroUseCase
+import com.adg.superherobucket.presentation.DetailViewModel
 import com.adg.superherobucket.presentation.MainViewModel
 import com.facebook.stetho.okhttp3.StethoInterceptor
 import okhttp3.OkHttpClient
@@ -23,6 +24,7 @@ private const val BASE_URL: String = "https://superheroapi.com/api/${ApiKeys.sup
 
 val viewModelModule: Module = module {
     viewModel { MainViewModel(searchSuperHeroUseCase = get()) }
+    viewModel { DetailViewModel() }
 }
 
 val domainModule: Module = module {
