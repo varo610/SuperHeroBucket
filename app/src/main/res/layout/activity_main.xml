@@ -29,7 +29,7 @@
                 android:layout_width="0dp" android:layout_height="0dp"
                 android:hint="@string/search"
                 android:ems="10"
-                android:id="@+id/editText"
+                android:id="@+id/searchET"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

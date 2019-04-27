@@ -1,10 +1,13 @@
 package com.adg.superherobucket.presentation
 
+import android.annotation.SuppressLint
 import android.arch.lifecycle.Observer
 import android.os.Bundle
 import android.support.constraint.ConstraintSet
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
+import android.text.Editable
+import android.text.TextWatcher
 import android.transition.TransitionManager
 import android.view.Menu
 import android.view.MenuItem
@@ -12,12 +15,20 @@ import android.view.View.GONE
 import android.view.View.VISIBLE
 import com.adg.superherobucket.R
 import com.adg.superherobucket.presentation.model.MainViewState
+import com.jakewharton.rxbinding3.widget.textChanges
+import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.activity_main.*
 import org.koin.android.viewmodel.ext.android.viewModel
+import java.util.concurrent.TimeUnit
+
 
 class MainActivity : AppCompatActivity() {
 
     private val viewModel: MainViewModel by viewModel()
+
+    private val compositeDisposable = CompositeDisposable()
 
     private val searchHiddenCS = ConstraintSet()
     private val searchVisibleCS = ConstraintSet()
@@ -33,10 +44,14 @@ class MainActivity : AppCompatActivity() {
 
         viewModel.mainViewState.observe(this, Observer { manageViewState(it) })
 
-        viewModel.search()
-
     }
 
+    override fun onDestroy() {
+
+        compositeDisposable.dispose()
+
+        super.onDestroy()
+    }
 
     private fun setupView() {
 
@@ -44,6 +59,13 @@ class MainActivity : AppCompatActivity() {
 
         searchHiddenCS.clone(constraintLayout)
         searchVisibleCS.clone(this, R.layout.activity_main_alt)
+
+        compositeDisposable.add(searchET.textChanges()
+            .debounce(100, TimeUnit.MILLISECONDS)
+            .subscribe {
+                viewModel.search(it.toString())
+            }
+        )
 
         superHeroesRV.layoutManager = LinearLayoutManager(this)
         superHeroesRV.adapter = adapter
@@ -75,9 +97,9 @@ class MainActivity : AppCompatActivity() {
             it.superHeroList.let { list ->
 
 
-                emptyListIV.visibility = if(list.isEmpty()) VISIBLE else GONE
-                emptyListTV.visibility = if(list.isEmpty()) VISIBLE else GONE
-                superHeroesRV.visibility = if(list.isNotEmpty()) VISIBLE else GONE
+                emptyListIV.visibility = if (list.isEmpty()) VISIBLE else GONE
+                emptyListTV.visibility = if (list.isEmpty()) VISIBLE else GONE
+                superHeroesRV.visibility = if (list.isNotEmpty()) VISIBLE else GONE
 
                 adapter.submitList(list)
 

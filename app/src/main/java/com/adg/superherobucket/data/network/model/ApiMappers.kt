@@ -5,12 +5,12 @@ import com.adg.superherobucket.domain.model.*
 fun ApiSuperHero.mapToDomain(): SuperHero{
     return SuperHero(
         image = this.apiImage.mapToDomain(),
-        Appearance = this.apiAppearance.mapToDomain(),
-        Biography = this.apiBiography.mapToDomain(),
+        appearance = this.apiAppearance.mapToDomain(),
+        biography = this.apiBiography.mapToDomain(),
         Connections = this.apiConnections.mapToDomain(),
         id = this.id,
         name = this.name,
-        Powerstats = this.apiPowerstats.mapToDomain(),
+        powerstats = this.apiPowerstats.mapToDomain(),
         Work = this.apiWork.mapToDomain())
 }
 

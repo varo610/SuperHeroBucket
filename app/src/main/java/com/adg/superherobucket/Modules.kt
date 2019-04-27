@@ -26,7 +26,7 @@ val viewModelModule: Module = module {
 }
 
 val domainModule: Module = module {
-    factory { SearchSuperHeroUseCase(repository = get()) }
+    single { SearchSuperHeroUseCase(repository = get()) }
 }
 
 val dataModule: Module = module {

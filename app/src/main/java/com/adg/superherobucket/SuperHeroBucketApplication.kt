@@ -27,7 +27,7 @@ class SuperHeroBucketApplication : Application() {
 
         }
 
-        Stetho.initializeWithDefaults(this);
+        Stetho.initializeWithDefaults(this)
 
     }
 

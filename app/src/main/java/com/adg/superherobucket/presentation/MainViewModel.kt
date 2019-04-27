@@ -17,16 +17,16 @@ class MainViewModel constructor(
 
     private val compositeDisposable = CompositeDisposable()
 
-    fun search() {
+    fun search(text: String) {
         compositeDisposable.add(
-            searchSuperHeroUseCase.searchSuperHero("iron")
+            searchSuperHeroUseCase.searchSuperHero(text)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                     {
-                        Log.d("TEMP", it.toString())
                         mainViewState.postValue(MainViewState(it))
                     }, {
+                        //TODO fix
                         Log.e("TEMP", it.toString())
                     }
                 )

@@ -2,12 +2,12 @@ package com.adg.superherobucket.domain.model
 
 data class SuperHero(
     val image: Image,
-    val Appearance: Appearance,
+    val appearance: Appearance,
     val Work: Work,
     val name: String,
-    val Powerstats: Powerstats,
+    val powerstats: Powerstats,
     val id: String,
-    val Biography: Biography,
+    val biography: Biography,
     val Connections: Connections
 )
 

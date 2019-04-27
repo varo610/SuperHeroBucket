@@ -8,6 +8,8 @@ import android.view.View
 import android.view.ViewGroup
 import com.adg.superherobucket.R
 import com.adg.superherobucket.domain.model.SuperHero
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import kotlinx.android.synthetic.main.item_list_super_hero.view.*
 
 class MainAdapter : ListAdapter<SuperHero, MainAdapter.MainViewHolder>(CommentDiffCallback()) {
@@ -25,6 +27,12 @@ class MainAdapter : ListAdapter<SuperHero, MainAdapter.MainViewHolder>(CommentDi
 
         fun bind(item: SuperHero) {
             itemView.nameTV.text = item.name
+            itemView.fullnameTV.text = item.biography.fullName
+            Glide
+                .with(itemView.superHeroIV)
+                .load(item.image.url)
+                .apply(RequestOptions.circleCropTransform())
+                .into(itemView.superHeroIV)
         }
     }
 }
