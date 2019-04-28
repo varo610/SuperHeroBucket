@@ -1,10 +1,17 @@
 package com.adg.superherobucket
 
-import com.adg.superherobucket.data.ApiKeys
+import androidx.room.Room
 import com.adg.superherobucket.data.Repository
+import com.adg.superherobucket.data.db.DBDatasource
+import com.adg.superherobucket.data.db.DBDatasourceImp
+import com.adg.superherobucket.data.db.SuperHeroDataBase
+import com.adg.superherobucket.data.network.ApiKeys
 import com.adg.superherobucket.data.network.NetworkDatasource
 import com.adg.superherobucket.data.network.NetworkDatasourceImp
 import com.adg.superherobucket.data.network.SuperHeroApiService
+import com.adg.superherobucket.domain.AddFavoriteSuperHero
+import com.adg.superherobucket.domain.GetFavoriteSuperHeros
+import com.adg.superherobucket.domain.RemoveFavoriteSuperHero
 import com.adg.superherobucket.domain.SearchSuperHeroUseCase
 import com.adg.superherobucket.presentation.DetailViewModel
 import com.adg.superherobucket.presentation.MainViewModel
@@ -24,16 +31,31 @@ private const val BASE_URL: String = "https://superheroapi.com/api/${ApiKeys.sup
 
 val viewModelModule: Module = module {
     viewModel { MainViewModel(searchSuperHeroUseCase = get()) }
-    viewModel { DetailViewModel() }
+    viewModel {
+        DetailViewModel(
+            addFavoriteSuperHero = get(),
+            removeFavoriteSuperHero = get()
+        )
+    }
 }
 
 val domainModule: Module = module {
     single { SearchSuperHeroUseCase(repository = get()) }
+    single { GetFavoriteSuperHeros(repository = get()) }
+    single { AddFavoriteSuperHero(repository = get()) }
+    single { RemoveFavoriteSuperHero(repository = get()) }
 }
 
 val dataModule: Module = module {
-    single { Repository(networkDatasource = get()) }
+    single {
+        Repository(
+            networkDatasource = get(),
+            dbDatasource = get()
+        )
+    }
+
     single { NetworkDatasourceImp(superHeroApiService = get()) as NetworkDatasource }
+    single { DBDatasourceImp(superHeroDAO = get()) as DBDatasource }
 }
 
 val networkModule: Module = module {
@@ -54,5 +76,18 @@ val networkModule: Module = module {
             .build()
             .create(SuperHeroApiService::class.java)
     }
+}
+
+val dbModule: Module = module {
+
+    single {
+        Room.databaseBuilder(
+            get(),
+            SuperHeroDataBase::class.java, "superhero.db"
+        ).build()
+    }
+
+    single { get<SuperHeroDataBase>().superHeroDao() }
+
 }
 

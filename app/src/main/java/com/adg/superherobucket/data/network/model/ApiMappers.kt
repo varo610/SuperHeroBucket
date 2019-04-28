@@ -21,15 +21,14 @@ fun ApiAppearance.mapToDomain(): DomainAppearance{
         eyeColor = this.eyeColor,
         gender = this.gender,
         race = this.race,
-        weight = this.weight,
-        height = this.height,
+        weight = this.weight[1]?.let { it }?:kotlin.run { "" },
+        height = this.height[1]?.let { it }?:kotlin.run { "" },
         hairColor = this.hairColor)
 }
 
 fun ApiBiography.mapToDomain(): DomainBiography{
     return DomainBiography(
         placeOfBirth = this.placeOfBirth,
-        aliases = this.aliases,
         firstAppearance = this.firstAppearance,
         publisher = this.publisher,
         alignment = this.alignment,

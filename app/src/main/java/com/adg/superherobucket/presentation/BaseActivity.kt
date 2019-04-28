@@ -1,8 +1,8 @@
 package com.adg.superherobucket.presentation
 
-import android.arch.lifecycle.Observer
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
 import io.reactivex.disposables.CompositeDisposable
 
 abstract class BaseActivity<T, S : BaseViewModel<T>> : AppCompatActivity() {

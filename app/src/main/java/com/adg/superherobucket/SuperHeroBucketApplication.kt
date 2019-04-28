@@ -23,7 +23,8 @@ class SuperHeroBucketApplication : Application() {
                 viewModelModule,
                 domainModule,
                 dataModule,
-                networkModule)
+                networkModule,
+                dbModule)
 
         }
 

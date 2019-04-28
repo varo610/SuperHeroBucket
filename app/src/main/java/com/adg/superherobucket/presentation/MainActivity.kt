@@ -1,14 +1,14 @@
 package com.adg.superherobucket.presentation
 
-import android.arch.lifecycle.Observer
 import android.content.Intent
-import android.support.constraint.ConstraintSet
-import android.support.v7.widget.LinearLayoutManager
 import android.transition.TransitionManager
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View.GONE
 import android.view.View.VISIBLE
+import androidx.constraintlayout.widget.ConstraintSet
+import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.adg.superherobucket.R
 import com.adg.superherobucket.presentation.model.MainViewState
 import com.adg.superherobucket.presentation.model.SuperHero

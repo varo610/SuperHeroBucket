@@ -1,14 +1,19 @@
 package com.adg.superherobucket.domain.model
 
-import com.adg.superherobucket.presentation.model.*
+import com.adg.superherobucket.data.db.model.DBSuperHero
+import com.adg.superherobucket.presentation.model.Appearance
+import com.adg.superherobucket.presentation.model.Biography
+import com.adg.superherobucket.presentation.model.Image
+import com.adg.superherobucket.presentation.model.SuperHero
 
-fun DomainSuperHero.toSuperHero(): SuperHero {
+fun DomainSuperHero.toSuperHero(favorite: Boolean): SuperHero {
     return SuperHero(
         id = this.id,
         name = this.name,
         image = this.image.toImage(),
         biography = this.biography.toBiography(),
-        appearance = this.appearance.toApperance()
+        appearance = this.appearance.toApperance(),
+        favorite = favorite
     )
 }
 
@@ -19,7 +24,6 @@ fun DomainImage.toImage(): Image {
 fun DomainBiography.toBiography(): Biography {
     return Biography(
         placeOfBirth = this.placeOfBirth,
-        aliases = this.aliases,
         firstAppearance = this.firstAppearance,
         publisher = this.publisher,
         alignment = this.alignment,
@@ -39,18 +43,22 @@ fun DomainAppearance.toApperance(): Appearance {
     )
 }
 
-fun SuperHero.toDetail(): List<SuperHeroDetailItem> {
-    return listOf(
-        SuperHeroDetailItem(DetailType.SP_NAME, this.name),
-        SuperHeroDetailItem(DetailType.SP_FULLNAME, this.biography.fullName),
-        SuperHeroDetailItem(DetailType.SP_PLACE_OF_BIRTH, this.biography.placeOfBirth),
-        SuperHeroDetailItem(DetailType.SP_GENDER, this.appearance.gender),
-        SuperHeroDetailItem(
-            DetailType.SP_WEIGHT,
-            this.appearance.weight[1]?.let { it } ?: kotlin.run { "" }),
-        SuperHeroDetailItem(
-            DetailType.SP_HEIGHT,
-            this.appearance.height[1]?.let { it } ?: kotlin.run { "" })
+fun DomainSuperHero.mapToDB(): DBSuperHero {
+    return DBSuperHero(
+        url = this.image.url,
+        eyeColor = this.appearance.eyeColor,
+        gender = this.appearance.gender,
+        race = this.appearance.race,
+        weight = this.appearance.weight,
+        height = this.appearance.height,
+        hairColor = this.appearance.hairColor,
+        placeOfBirth = this.biography.placeOfBirth,
+        firstAppearance = this.biography.firstAppearance,
+        publisher = this.biography.publisher,
+        alignment = this.biography.alignment,
+        fullName = this.biography.fullName,
+        alterEgos = this.biography.alterEgos,
+        id = this.id,
+        name = this.name
     )
-
 }

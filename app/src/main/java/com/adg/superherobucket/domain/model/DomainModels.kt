@@ -16,14 +16,13 @@ data class DomainAppearance(
     val eyeColor: String,
     val gender: String,
     val race: String,
-    val weight: List<String?>,
-    val height: List<String?>,
+    val weight: String,
+    val height: String,
     val hairColor: String
 )
 
 data class DomainBiography(
     val placeOfBirth: String,
-    val aliases: List<String?>,
     val firstAppearance: String,
     val publisher: String,
     val alignment: String,
