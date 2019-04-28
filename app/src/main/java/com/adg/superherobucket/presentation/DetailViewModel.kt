@@ -15,10 +15,6 @@ class DetailViewModel constructor(
 
     private lateinit var superHero: SuperHero
 
-    override fun onAttach() {
-        //NA
-    }
-
     fun setSuperHero(superHero: SuperHero){
         this.superHero = superHero
         viewState.postValue(DetailViewState(this.superHero))
@@ -35,6 +31,7 @@ class DetailViewModel constructor(
                         superHero.favorite = false
                         viewState.postValue(DetailViewState(this.superHero))
                     }, {
+                        //TODO Error handling
                         Log.e("TEMP", it.toString())
                     })
             )
@@ -47,6 +44,7 @@ class DetailViewModel constructor(
                         superHero.favorite = true
                         viewState.postValue(DetailViewState(this.superHero))
                     }, {
+                        //TODO Error handling
                         Log.e("TEMP", it.toString())
                     })
             )

@@ -15,6 +15,4 @@ abstract class BaseViewModel<T> : ViewModel(){
         super.onCleared()
     }
 
-    abstract fun onAttach()
-
 }

@@ -8,8 +8,9 @@ SuperHero Bucket is a pet project to try out things.
 * DB with **Room**
 
 ## TODO
-* Error handling 
-* Unit testing
+* Error handling (Error interceptor, show erros to the user...)
+* Unitary testing
+* Improve design and functional behaviour 
 
 ## Future implementations
 * Kotlin coroutines

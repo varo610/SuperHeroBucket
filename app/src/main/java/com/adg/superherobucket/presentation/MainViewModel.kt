@@ -14,11 +14,6 @@ class MainViewModel constructor(
 
     val navigateToDetails = SingleLiveEvent<SuperHero>()
 
-
-    override fun onAttach() {
-        //TODO Get favs from DB
-    }
-
     fun search(text: String) {
         compositeDisposable.add(
             searchSuperHeroUseCase.searchSuperHero(text)
@@ -28,7 +23,7 @@ class MainViewModel constructor(
                     { list ->
                         viewState.postValue(MainViewState(list))
                     }, {
-                        //TODO manage error
+                        //TODO Error handling
                         Log.e("TEMP", it.toString())
                     }
                 )
