@@ -1,4 +1,4 @@
-package com.adg.superherobucket.presentation
+package com.adg.superherobucket.presentation.detail
 
 import android.view.LayoutInflater
 import android.view.View
@@ -12,7 +12,9 @@ import com.adg.superherobucket.presentation.model.SuperHeroDetailItem
 import kotlinx.android.synthetic.main.item_list_detail.view.*
 
 
-class DetailAdapter : ListAdapter<SuperHeroDetailItem, DetailAdapter.DetailViewHolder>(SuperHeroDetailItemDiffCallback()) {
+class DetailAdapter : ListAdapter<SuperHeroDetailItem, DetailAdapter.DetailViewHolder>(
+    SuperHeroDetailItemDiffCallback()
+) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DetailViewHolder =
         DetailViewHolder(

@@ -1,4 +1,4 @@
-package com.adg.superherobucket.presentation
+package com.adg.superherobucket.presentation.base
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel

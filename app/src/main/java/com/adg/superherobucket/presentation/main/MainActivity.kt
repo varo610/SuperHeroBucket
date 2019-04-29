@@ -1,4 +1,4 @@
-package com.adg.superherobucket.presentation
+package com.adg.superherobucket.presentation.main
 
 import android.content.Intent
 import android.transition.TransitionManager
@@ -10,6 +10,8 @@ import androidx.constraintlayout.widget.ConstraintSet
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.adg.superherobucket.R
+import com.adg.superherobucket.presentation.detail.DetailActivity
+import com.adg.superherobucket.presentation.base.BaseActivity
 import com.adg.superherobucket.presentation.model.MainViewState
 import com.adg.superherobucket.presentation.model.SuperHero
 import com.jakewharton.rxbinding3.widget.textChanges
@@ -24,7 +26,8 @@ class MainActivity : BaseActivity<MainViewState, MainViewModel>() {
     private val searchVisibleCS = ConstraintSet()
     private var searchHidden = true
 
-    private val adapter = MainAdapter(itemClick = {viewModel.superHeroOnClick(it)})
+    private val adapter =
+        MainAdapter(itemClick = { viewModel.superHeroOnClick(it) })
 
     //region [BaseActivityImp]
 

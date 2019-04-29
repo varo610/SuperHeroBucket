@@ -1,4 +1,4 @@
-package com.adg.superherobucket.presentation
+package com.adg.superherobucket.presentation.main
 
 import android.view.LayoutInflater
 import android.view.View

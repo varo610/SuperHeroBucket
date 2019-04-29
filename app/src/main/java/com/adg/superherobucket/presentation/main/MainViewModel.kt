@@ -1,7 +1,8 @@
-package com.adg.superherobucket.presentation
+package com.adg.superherobucket.presentation.main
 
 import android.util.Log
 import com.adg.superherobucket.domain.SearchSuperHeroUseCase
+import com.adg.superherobucket.presentation.base.BaseViewModel
 import com.adg.superherobucket.presentation.model.MainViewState
 import com.adg.superherobucket.presentation.model.SuperHero
 import com.adg.superherobucket.utils.SingleLiveEvent
@@ -14,7 +15,7 @@ class MainViewModel constructor(
 
     val navigateToDetails = SingleLiveEvent<SuperHero>()
 
-    fun search(text: String) {
+    fun search(text: String) =
         compositeDisposable.add(
             searchSuperHeroUseCase.searchSuperHero(text)
                 .subscribeOn(Schedulers.io())
@@ -24,11 +25,10 @@ class MainViewModel constructor(
                         viewState.postValue(MainViewState(list))
                     }, {
                         //TODO Error handling
-                        Log.e("TEMP", it.toString())
                     }
                 )
         )
-    }
+
 
     fun superHeroOnClick(id: String) {
         val superHero = viewState.value?.superHeroList?.first { it.id == id }

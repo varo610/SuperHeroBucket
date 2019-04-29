@@ -1,8 +1,9 @@
-package com.adg.superherobucket.presentation
+package com.adg.superherobucket.presentation.detail
 
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.adg.superherobucket.R
+import com.adg.superherobucket.presentation.base.BaseActivity
 import com.adg.superherobucket.presentation.model.DetailViewState
 import com.adg.superherobucket.presentation.model.SuperHero
 import com.adg.superherobucket.presentation.model.toDetail
@@ -11,7 +12,7 @@ import kotlinx.android.synthetic.main.activity_detail.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
 
-class DetailActivity : BaseActivity<DetailViewState,DetailViewModel>() {
+class DetailActivity : BaseActivity<DetailViewState, DetailViewModel>() {
 
     companion object {
         const val SUPER_HERO_EXTRA = "SUPER_HERO_EXTRA"
@@ -38,8 +39,6 @@ class DetailActivity : BaseActivity<DetailViewState,DetailViewModel>() {
         favFAB.setOnClickListener {
             viewModel.favButtonOnClick()
         }
-
-        viewModel.onAttach()
 
     }
 

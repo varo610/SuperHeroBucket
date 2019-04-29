@@ -1,8 +1,9 @@
-package com.adg.superherobucket.presentation
+package com.adg.superherobucket.presentation.detail
 
 import android.util.Log
 import com.adg.superherobucket.domain.AddFavoriteSuperHero
 import com.adg.superherobucket.domain.RemoveFavoriteSuperHero
+import com.adg.superherobucket.presentation.base.BaseViewModel
 import com.adg.superherobucket.presentation.model.DetailViewState
 import com.adg.superherobucket.presentation.model.SuperHero
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -32,7 +33,6 @@ class DetailViewModel constructor(
                         viewState.postValue(DetailViewState(this.superHero))
                     }, {
                         //TODO Error handling
-                        Log.e("TEMP", it.toString())
                     })
             )
         }else {
@@ -45,7 +45,6 @@ class DetailViewModel constructor(
                         viewState.postValue(DetailViewState(this.superHero))
                     }, {
                         //TODO Error handling
-                        Log.e("TEMP", it.toString())
                     })
             )
         }

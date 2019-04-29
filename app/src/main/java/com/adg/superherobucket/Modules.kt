@@ -13,8 +13,8 @@ import com.adg.superherobucket.domain.AddFavoriteSuperHero
 import com.adg.superherobucket.domain.GetFavoriteSuperHeros
 import com.adg.superherobucket.domain.RemoveFavoriteSuperHero
 import com.adg.superherobucket.domain.SearchSuperHeroUseCase
-import com.adg.superherobucket.presentation.DetailViewModel
-import com.adg.superherobucket.presentation.MainViewModel
+import com.adg.superherobucket.presentation.detail.DetailViewModel
+import com.adg.superherobucket.presentation.main.MainViewModel
 import com.facebook.stetho.okhttp3.StethoInterceptor
 import okhttp3.OkHttpClient
 import org.koin.android.viewmodel.dsl.viewModel

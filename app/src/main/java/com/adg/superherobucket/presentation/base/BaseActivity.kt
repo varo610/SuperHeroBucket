@@ -1,4 +1,4 @@
-package com.adg.superherobucket.presentation
+package com.adg.superherobucket.presentation.base
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
