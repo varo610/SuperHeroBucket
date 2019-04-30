@@ -50,6 +50,6 @@ class RemoveFavoriteSuperHero constructor(
     private val repository: Repository
 ) {
     fun removeFavoriteSuperHero(superHero: SuperHero): Completable {
-        return repository.removeFavoriteSuperHero(superHero.toDomainSuperHero().mapToDB())
+        return repository.removeFavoriteSuperHero(superHero.toDomainSuperHero())
     }
 }

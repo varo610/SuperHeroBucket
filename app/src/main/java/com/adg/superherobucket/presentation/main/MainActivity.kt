@@ -15,6 +15,7 @@ import com.adg.superherobucket.presentation.base.BaseActivity
 import com.adg.superherobucket.presentation.model.MainViewState
 import com.adg.superherobucket.presentation.model.SuperHero
 import com.jakewharton.rxbinding3.widget.textChanges
+import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.activity_main.*
 import org.koin.android.viewmodel.ext.android.viewModel
 import java.util.concurrent.TimeUnit
@@ -26,8 +27,9 @@ class MainActivity : BaseActivity<MainViewState, MainViewModel>() {
     private val searchVisibleCS = ConstraintSet()
     private var searchHidden = true
 
-    private val adapter =
-        MainAdapter(itemClick = { viewModel.superHeroOnClick(it) })
+    private val adapter = MainAdapter(itemClick = { viewModel.superHeroOnClick(it) })
+
+    private val compositeDisposable = CompositeDisposable()
 
     //region [BaseActivityImp]
 
@@ -101,6 +103,13 @@ class MainActivity : BaseActivity<MainViewState, MainViewModel>() {
         }
 
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onDestroy() {
+
+        compositeDisposable.dispose()
+
+        super.onDestroy()
     }
 
 }

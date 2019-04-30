@@ -1,16 +1,16 @@
 package com.adg.superherobucket.data.db
 
-import com.adg.superherobucket.data.db.model.DBSuperHero
+import com.adg.superherobucket.domain.model.DomainSuperHero
 import io.reactivex.Completable
 import io.reactivex.Maybe
 
 
 interface DBDatasource {
 
-    fun getAll(): Maybe<List<DBSuperHero>>
+    fun getAll(): Maybe<List<DomainSuperHero>>
 
-    fun addFavorite(dbSuperHero: DBSuperHero): Completable
+    fun addFavorite(dbSuperHero: DomainSuperHero): Completable
 
-    fun removeFavorite(dbSuperHero: DBSuperHero): Completable
+    fun removeFavorite(dbSuperHero: DomainSuperHero): Completable
 
 }

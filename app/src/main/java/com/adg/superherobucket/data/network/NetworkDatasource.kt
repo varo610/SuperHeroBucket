@@ -1,10 +1,10 @@
 package com.adg.superherobucket.data.network
 
-import com.adg.superherobucket.data.network.model.ApiSuperHero
+import com.adg.superherobucket.domain.model.DomainSuperHero
 import io.reactivex.Single
 
 interface NetworkDatasource {
 
-    fun searchSuperHeroes(search: String): Single<List<ApiSuperHero>>
+    fun searchSuperHeroes(search: String): Single<List<DomainSuperHero>>
 
 }

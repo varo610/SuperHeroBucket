@@ -2,6 +2,7 @@ package com.adg.superherobucket
 
 import androidx.room.Room
 import com.adg.superherobucket.data.Repository
+import com.adg.superherobucket.data.RepositoryImp
 import com.adg.superherobucket.data.db.DBDatasource
 import com.adg.superherobucket.data.db.DBDatasourceImp
 import com.adg.superherobucket.data.db.SuperHeroDataBase
@@ -48,10 +49,10 @@ val domainModule: Module = module {
 
 val dataModule: Module = module {
     single {
-        Repository(
+        RepositoryImp(
             networkDatasource = get(),
             dbDatasource = get()
-        )
+        ) as Repository
     }
 
     single { NetworkDatasourceImp(superHeroApiService = get()) as NetworkDatasource }

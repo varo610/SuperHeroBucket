@@ -10,8 +10,6 @@ abstract class BaseActivity<T, S : BaseViewModel<T>> : AppCompatActivity() {
     protected abstract val internalViewModel : S
     val viewModel : S get() = internalViewModel
 
-    val compositeDisposable = CompositeDisposable()
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -20,12 +18,6 @@ abstract class BaseActivity<T, S : BaseViewModel<T>> : AppCompatActivity() {
         setupView()
 
         viewModel.viewState.observe(this, Observer { manageViewState(it) })
-    }
-
-    override fun onDestroy() {
-        compositeDisposable.dispose()
-
-        super.onDestroy()
     }
 
     protected abstract fun getLayoutId(): Int
