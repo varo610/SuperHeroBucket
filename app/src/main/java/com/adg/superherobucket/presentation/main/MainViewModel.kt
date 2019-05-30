@@ -6,7 +6,6 @@ import com.adg.superherobucket.presentation.base.BaseViewModel
 import com.adg.superherobucket.presentation.model.MainViewState
 import com.adg.superherobucket.presentation.model.SuperHero
 import com.adg.superherobucket.utils.SingleLiveEvent
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
 class MainViewModel constructor(
@@ -19,14 +18,17 @@ class MainViewModel constructor(
         compositeDisposable.add(
             searchSuperHeroUseCase.searchSuperHero(text)
                 .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                    { list ->
-                        viewState.postValue(MainViewState(list))
-                    }, {
-                        //TODO Error handling
-                    }
-                )
+                .subscribe { list ->
+                    list.fold(
+                        {
+                            //TODO Show error
+                            Log.d("", "")
+                        },
+                        {
+                            viewState.postValue(MainViewState(it))
+                        })
+                }
+
         )
 
 

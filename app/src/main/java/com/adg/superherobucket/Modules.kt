@@ -6,10 +6,7 @@ import com.adg.superherobucket.data.RepositoryImp
 import com.adg.superherobucket.data.db.DBDatasource
 import com.adg.superherobucket.data.db.DBDatasourceImp
 import com.adg.superherobucket.data.db.SuperHeroDataBase
-import com.adg.superherobucket.data.network.ApiKeys
-import com.adg.superherobucket.data.network.NetworkDatasource
-import com.adg.superherobucket.data.network.NetworkDatasourceImp
-import com.adg.superherobucket.data.network.SuperHeroApiService
+import com.adg.superherobucket.data.network.*
 import com.adg.superherobucket.domain.AddFavoriteSuperHero
 import com.adg.superherobucket.domain.GetFavoriteSuperHeros
 import com.adg.superherobucket.domain.RemoveFavoriteSuperHero
@@ -74,6 +71,7 @@ val networkModule: Module = module {
             .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+            .addCallAdapterFactory(CustomCallAdapterFactory.create())
             .build()
             .create(SuperHeroApiService::class.java)
     }

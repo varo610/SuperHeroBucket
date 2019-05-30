@@ -12,7 +12,7 @@ class RepositoryImp constructor(
     private val dbDatasource: DBDatasource
 ) : Repository{
 
-    override fun searchSuperHeroes(search: String): Single<List<DomainSuperHero>> {
+    override fun searchSuperHeroes(search: String): Single<BaseEither<List<DomainSuperHero>>> {
         return networkDatasource.searchSuperHeroes(search)
     }
 

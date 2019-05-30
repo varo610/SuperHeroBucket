@@ -8,6 +8,6 @@ import retrofit2.http.Path
 interface SuperHeroApiService {
 
     @GET("search/{search}")
-    fun superHeroSearch(@Path("search") search: String) : Single<SuperHeroSearchResponse>
+    fun superHeroSearch(@Path("search") search: String) : CustomCall<SuperHeroSearchResponse>
 
 }
