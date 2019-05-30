@@ -4,9 +4,8 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.adg.superherobucket.R
 import com.adg.superherobucket.presentation.base.BaseActivity
-import com.adg.superherobucket.presentation.model.DetailViewState
-import com.adg.superherobucket.presentation.model.SuperHero
-import com.adg.superherobucket.presentation.model.toDetail
+import com.adg.superherobucket.presentation.model.*
+import com.adg.superherobucket.presentation.model.State.*
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.activity_detail.*
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -42,19 +41,32 @@ class DetailActivity : BaseActivity<DetailViewState, DetailViewModel>() {
 
     }
 
-    override fun manageViewState(viewState: DetailViewState?) {
+    override fun manageViewState(viewState: BaseViewState<DetailViewState>?) {
         viewState?.let {
-            Glide
-                .with(imageView)
-                .load(it.superHero.image.url)
-                .into(imageView)
 
-            adapter.submitList(it.superHero.toDetail())
+            when(it.state){
+                OK -> {
+                    it.data?.superHero?.let { superHero ->
+                        Glide
+                            .with(imageView)
+                            .load(superHero.image.url)
+                            .into(imageView)
 
-            if(it.superHero.favorite)
-                favFAB.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_remove_favorite))
-            else
-                favFAB.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_favorite))
+                        adapter.submitList(superHero.toDetail())
+
+                        if (superHero.favorite)
+                            favFAB.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_remove_favorite))
+                        else
+                            favFAB.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_favorite))
+                    }
+                }
+                LOADING -> TODO()
+                ERROR -> TODO()
+            }
+
+
+
+
         }
     }
 

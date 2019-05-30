@@ -3,6 +3,7 @@ package com.adg.superherobucket.presentation.base
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
+import com.adg.superherobucket.presentation.model.BaseViewState
 import io.reactivex.disposables.CompositeDisposable
 
 abstract class BaseActivity<T, S : BaseViewModel<T>> : AppCompatActivity() {
@@ -24,7 +25,7 @@ abstract class BaseActivity<T, S : BaseViewModel<T>> : AppCompatActivity() {
 
     protected abstract fun setupView()
 
-    abstract fun manageViewState(viewState: T?)
+    abstract fun manageViewState(viewState: BaseViewState<T>?)
 
 
 }

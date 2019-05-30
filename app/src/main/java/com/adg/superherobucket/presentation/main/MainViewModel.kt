@@ -1,10 +1,13 @@
 package com.adg.superherobucket.presentation.main
 
-import android.util.Log
 import com.adg.superherobucket.domain.SearchSuperHeroUseCase
 import com.adg.superherobucket.presentation.base.BaseViewModel
+import com.adg.superherobucket.presentation.model.BaseViewState
 import com.adg.superherobucket.presentation.model.MainViewState
 import com.adg.superherobucket.presentation.model.SuperHero
+import com.adg.superherobucket.presentation.utils.setError
+import com.adg.superherobucket.presentation.utils.setLoading
+import com.adg.superherobucket.presentation.utils.setSuccess
 import com.adg.superherobucket.utils.SingleLiveEvent
 import io.reactivex.schedulers.Schedulers
 
@@ -14,26 +17,29 @@ class MainViewModel constructor(
 
     val navigateToDetails = SingleLiveEvent<SuperHero>()
 
-    fun search(text: String) =
+    fun search(text: String) {
+
+        viewState.setLoading()
+
         compositeDisposable.add(
             searchSuperHeroUseCase.searchSuperHero(text)
                 .subscribeOn(Schedulers.io())
                 .subscribe { list ->
                     list.fold(
                         {
-                            //TODO Show error
-                            Log.d("", "")
+                            viewState.setError()
                         },
                         {
-                            viewState.postValue(MainViewState(it))
+                            viewState.setSuccess(viewState.value?.data?.copy(superHeroList = it) ?: MainViewState(superHeroList = it))
                         })
                 }
 
         )
+    }
 
 
     fun superHeroOnClick(id: String) {
-        val superHero = viewState.value?.superHeroList?.first { it.id == id }
+        val superHero = viewState.value?.data?.superHeroList?.first { it.id == id }
         navigateToDetails.postValue(superHero)
     }
 

@@ -10,9 +10,11 @@ import androidx.constraintlayout.widget.ConstraintSet
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.adg.superherobucket.R
-import com.adg.superherobucket.presentation.detail.DetailActivity
 import com.adg.superherobucket.presentation.base.BaseActivity
+import com.adg.superherobucket.presentation.detail.DetailActivity
+import com.adg.superherobucket.presentation.model.BaseViewState
 import com.adg.superherobucket.presentation.model.MainViewState
+import com.adg.superherobucket.presentation.model.State.*
 import com.adg.superherobucket.presentation.model.SuperHero
 import com.jakewharton.rxbinding3.widget.textChanges
 import io.reactivex.disposables.CompositeDisposable
@@ -58,17 +60,35 @@ class MainActivity : BaseActivity<MainViewState, MainViewModel>() {
 
     }
 
-    override fun manageViewState(viewState: MainViewState?) {
+    override fun manageViewState(viewState: BaseViewState<MainViewState>?) {
 
-        viewState?.let {state ->
+        viewState?.let { state ->
 
-            state.superHeroList.let { list ->
+            when (state.state) {
 
-                emptyListIV.visibility = if (list.isEmpty()) VISIBLE else GONE
-                emptyListTV.visibility = if (list.isEmpty()) VISIBLE else GONE
-                superHeroesRV.visibility = if (list.isNotEmpty()) VISIBLE else GONE
+                LOADING -> {
+                    //TODO SHOW LOADING
+                }
 
-                adapter.submitList(list)
+                OK -> {
+
+                    //TODO HIDE LOADING
+
+                    state.data?.superHeroList?.let { list ->
+
+                        emptyListIV.visibility = if (list.isEmpty()) VISIBLE else GONE
+                        emptyListTV.visibility = if (list.isEmpty()) VISIBLE else GONE
+                        superHeroesRV.visibility = if (list.isNotEmpty()) VISIBLE else GONE
+
+                        adapter.submitList(list)
+
+                    }
+
+                }
+
+                ERROR -> {
+                    //TODO HIDE LOADING & SHOW ERROR
+                }
 
             }
 
@@ -76,10 +96,10 @@ class MainActivity : BaseActivity<MainViewState, MainViewModel>() {
 
     }
 
-    private fun gotToDetail(superHero: SuperHero?){
+    private fun gotToDetail(superHero: SuperHero?) {
         superHero?.let {
             val intent = Intent(applicationContext, DetailActivity::class.java)
-            intent.putExtra(DetailActivity.SUPER_HERO_EXTRA,it)
+            intent.putExtra(DetailActivity.SUPER_HERO_EXTRA, it)
             startActivity(intent)
         }
     }
