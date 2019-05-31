@@ -7,10 +7,10 @@ import io.reactivex.Maybe
 
 interface DBDatasource {
 
-    fun getAll(): Maybe<List<DomainSuperHero>>
+    suspend fun getAll(): List<DomainSuperHero>
 
-    fun addFavorite(dbSuperHero: DomainSuperHero): Completable
+    suspend fun addFavorite(dbSuperHero: DomainSuperHero)
 
-    fun removeFavorite(dbSuperHero: DomainSuperHero): Completable
+    suspend fun removeFavorite(dbSuperHero: DomainSuperHero)
 
 }

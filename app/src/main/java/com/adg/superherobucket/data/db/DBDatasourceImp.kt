@@ -11,15 +11,15 @@ constructor(
     private val superHeroDAO: SuperHeroDAO
 ) : DBDatasource {
 
-    override fun getAll(): Maybe<List<DomainSuperHero>> {
-        return superHeroDAO.getAll().map { list -> list.map { it.mapToDomain() } }
+    override suspend fun getAll(): List<DomainSuperHero> {
+        return superHeroDAO.getAll().map { it.mapToDomain() }
     }
 
-    override fun addFavorite(dbSuperHero: DomainSuperHero): Completable {
+    override suspend fun addFavorite(dbSuperHero: DomainSuperHero) {
         return superHeroDAO.insert(dbSuperHero.mapToDB())
     }
 
-    override fun removeFavorite(dbSuperHero: DomainSuperHero): Completable {
+    override suspend fun removeFavorite(dbSuperHero: DomainSuperHero) {
         return superHeroDAO.delete(dbSuperHero.mapToDB())
     }
 

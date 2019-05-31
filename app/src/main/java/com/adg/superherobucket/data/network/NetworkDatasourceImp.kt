@@ -9,9 +9,13 @@ class NetworkDatasourceImp constructor(
     private val superHeroApiService: SuperHeroApiService
 ) : NetworkDatasource {
 
-    override fun searchSuperHeroes(search: String): Single<BaseEither<List<DomainSuperHero>>> {
+    override suspend fun searchSuperHeroes(search: String): BaseEither<List<DomainSuperHero>> {
 
-        return Single.just(superHeroApiService.superHeroSearch(search).run().map { it.results.map { list -> list.mapToDomain() } })
+        return superHeroApiService.superHeroSearch(search).run().map {
+            it.results.map { list ->
+                list.mapToDomain()
+            }
+        }
 
     }
 

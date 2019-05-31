@@ -4,8 +4,11 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.adg.superherobucket.R
 import com.adg.superherobucket.presentation.base.BaseActivity
-import com.adg.superherobucket.presentation.model.*
+import com.adg.superherobucket.presentation.model.BaseViewState
+import com.adg.superherobucket.presentation.model.DetailViewState
 import com.adg.superherobucket.presentation.model.State.*
+import com.adg.superherobucket.presentation.model.SuperHero
+import com.adg.superherobucket.presentation.model.toDetail
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.activity_detail.*
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -63,9 +66,6 @@ class DetailActivity : BaseActivity<DetailViewState, DetailViewModel>() {
                 LOADING -> TODO()
                 ERROR -> TODO()
             }
-
-
-
 
         }
     }

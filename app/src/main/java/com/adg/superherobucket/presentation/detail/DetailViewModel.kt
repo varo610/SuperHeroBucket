@@ -1,14 +1,15 @@
 package com.adg.superherobucket.presentation.detail
 
+import androidx.lifecycle.viewModelScope
 import com.adg.superherobucket.domain.AddFavoriteSuperHero
 import com.adg.superherobucket.domain.RemoveFavoriteSuperHero
 import com.adg.superherobucket.presentation.base.BaseViewModel
-import com.adg.superherobucket.presentation.model.BaseViewState
 import com.adg.superherobucket.presentation.model.DetailViewState
 import com.adg.superherobucket.presentation.model.SuperHero
-import com.adg.superherobucket.presentation.utils.setError
 import com.adg.superherobucket.presentation.utils.setSuccess
-import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class DetailViewModel constructor(
     private val addFavoriteSuperHero: AddFavoriteSuperHero,
@@ -23,29 +24,20 @@ class DetailViewModel constructor(
     }
 
     fun favButtonOnClick() {
+        viewModelScope.launch {
+            if (superHero.favorite) {
 
-        if (superHero.favorite) {
-            compositeDisposable.add(
-                removeFavoriteSuperHero.removeFavoriteSuperHero(superHero)
-                    .subscribeOn(Schedulers.io())
-                    .subscribe({
-                        superHero.favorite = false
-                        viewState.setSuccess(DetailViewState(this.superHero))
-                    }, {
-                        viewState.setError()
-                    })
-            )
-        } else {
-            compositeDisposable.add(
-                addFavoriteSuperHero.addFavoriteSuperHero(superHero)
-                    .subscribeOn(Schedulers.io())
-                    .subscribe({
-                        superHero.favorite = true
-                        viewState.setSuccess(DetailViewState(this.superHero))
-                    }, {
-                        viewState.setError()
-                    })
-            )
+                withContext(Dispatchers.IO) { removeFavoriteSuperHero.removeFavoriteSuperHero(superHero) }
+                superHero.favorite = false
+                viewState.setSuccess(DetailViewState(superHero))
+
+            } else {
+
+                withContext(Dispatchers.IO) { addFavoriteSuperHero.addFavoriteSuperHero(superHero) }
+                superHero.favorite = true
+                viewState.setSuccess(DetailViewState(superHero))
+
+            }
         }
 
     }

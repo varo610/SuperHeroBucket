@@ -5,25 +5,18 @@ import com.adg.superherobucket.data.Repository
 import com.adg.superherobucket.domain.model.toSuperHero
 import com.adg.superherobucket.presentation.model.SuperHero
 import com.adg.superherobucket.presentation.model.toDomainSuperHero
-import io.reactivex.Completable
-import io.reactivex.Maybe
-import io.reactivex.rxkotlin.Maybes
 
 class SearchSuperHeroUseCase constructor(
     private val repository: Repository
 ) {
-    fun searchSuperHero(search: String): Maybe<BaseEither<List<SuperHero>>> {
+    suspend fun searchSuperHero(search: String): BaseEither<List<SuperHero>> {
 
-        return Maybes.zip(
-            repository.searchSuperHeroes(search).toMaybe(),
-            repository.getFavoriteSuperHeros()
-        ) { searchResults, favs ->
-            searchResults.map { list ->
-                list.map { result ->
-                    result.toSuperHero(favs.find { result.id == it.id }?.let { true } ?: kotlin.run { false })
-                }
+        val searchResults = repository.searchSuperHeroes(search)
+        val favs = repository.getFavoriteSuperHeros()
+        return searchResults.map { list ->
+            list.map { result ->
+                result.toSuperHero(favs.find { result.id == it.id }?.let { true } ?: kotlin.run { false })
             }
-
         }
 
     }
@@ -33,9 +26,9 @@ class SearchSuperHeroUseCase constructor(
 class GetFavoriteSuperHeros constructor(
     private val repository: Repository
 ) {
-    fun getFavoriteSuperHeros(): Maybe<List<SuperHero>> {
+    suspend fun getFavoriteSuperHeros(): List<SuperHero> {
         return repository.getFavoriteSuperHeros().map { list ->
-            list.map { it.toSuperHero(true) }
+            list.toSuperHero(true)
         }
     }
 }
@@ -43,7 +36,7 @@ class GetFavoriteSuperHeros constructor(
 class AddFavoriteSuperHero constructor(
     private val repository: Repository
 ) {
-    fun addFavoriteSuperHero(superHero: SuperHero): Completable {
+    suspend fun addFavoriteSuperHero(superHero: SuperHero) {
         return repository.addFavoriteSuperHero(superHero.toDomainSuperHero())
     }
 }
@@ -51,7 +44,7 @@ class AddFavoriteSuperHero constructor(
 class RemoveFavoriteSuperHero constructor(
     private val repository: Repository
 ) {
-    fun removeFavoriteSuperHero(superHero: SuperHero): Completable {
+    suspend fun removeFavoriteSuperHero(superHero: SuperHero) {
         return repository.removeFavoriteSuperHero(superHero.toDomainSuperHero())
     }
 }

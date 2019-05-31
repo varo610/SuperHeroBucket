@@ -12,19 +12,19 @@ class RepositoryImp constructor(
     private val dbDatasource: DBDatasource
 ) : Repository{
 
-    override fun searchSuperHeroes(search: String): Single<BaseEither<List<DomainSuperHero>>> {
+    override suspend fun searchSuperHeroes(search: String): BaseEither<List<DomainSuperHero>> {
         return networkDatasource.searchSuperHeroes(search)
     }
 
-    override fun getFavoriteSuperHeros(): Maybe<List<DomainSuperHero>> {
+    override suspend fun getFavoriteSuperHeros(): List<DomainSuperHero> {
         return dbDatasource.getAll()
     }
 
-    override fun addFavoriteSuperHero(domainSuperHero: DomainSuperHero): Completable {
+    override suspend fun addFavoriteSuperHero(domainSuperHero: DomainSuperHero) {
         return dbDatasource.addFavorite(domainSuperHero)
     }
 
-    override fun removeFavoriteSuperHero(domainSuperHero: DomainSuperHero): Completable {
+    override suspend fun removeFavoriteSuperHero(domainSuperHero: DomainSuperHero) {
         return dbDatasource.removeFavorite(domainSuperHero)
     }
 

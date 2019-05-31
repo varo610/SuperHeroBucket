@@ -10,15 +10,16 @@ import io.reactivex.Completable
 import io.reactivex.Maybe
 
 @Dao
+
 interface SuperHeroDAO {
 
     @Query("SELECT * from ${DBNames.dbName}")
-    fun getAll(): Maybe<List<DBSuperHero>>
+    suspend fun getAll(): List<DBSuperHero>
 
     @Insert(onConflict = REPLACE)
-    fun insert(dbSuperHero: DBSuperHero): Completable
+    suspend fun insert(dbSuperHero: DBSuperHero)
 
     @Delete
-    fun delete(dbSuperHero: DBSuperHero): Completable
+    suspend fun delete(dbSuperHero: DBSuperHero)
 
 }

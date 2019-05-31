@@ -11,11 +11,11 @@ typealias BaseEither<K> = Either<BaseError, K>
 
 interface Repository {
 
-    fun searchSuperHeroes(search: String): Single<BaseEither<List<DomainSuperHero>>>
+    suspend fun searchSuperHeroes(search: String): BaseEither<List<DomainSuperHero>>
 
-    fun getFavoriteSuperHeros(): Maybe<List<DomainSuperHero>>
+    suspend fun getFavoriteSuperHeros(): List<DomainSuperHero>
 
-    fun addFavoriteSuperHero(domainSuperHero: DomainSuperHero): Completable
+    suspend fun addFavoriteSuperHero(domainSuperHero: DomainSuperHero)
 
-    fun removeFavoriteSuperHero(domainSuperHero: DomainSuperHero): Completable
+    suspend fun removeFavoriteSuperHero(domainSuperHero: DomainSuperHero)
 }
