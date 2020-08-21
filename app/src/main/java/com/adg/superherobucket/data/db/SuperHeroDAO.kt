@@ -6,8 +6,6 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy.REPLACE
 import androidx.room.Query
 import com.adg.superherobucket.data.db.model.DBSuperHero
-import io.reactivex.Completable
-import io.reactivex.Maybe
 
 @Dao
 

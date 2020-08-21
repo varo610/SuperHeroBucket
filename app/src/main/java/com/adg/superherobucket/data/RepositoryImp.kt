@@ -3,9 +3,6 @@ package com.adg.superherobucket.data
 import com.adg.superherobucket.data.db.DBDatasource
 import com.adg.superherobucket.data.network.NetworkDatasource
 import com.adg.superherobucket.domain.model.DomainSuperHero
-import io.reactivex.Completable
-import io.reactivex.Maybe
-import io.reactivex.Single
 
 class RepositoryImp constructor(
     private val networkDatasource: NetworkDatasource,

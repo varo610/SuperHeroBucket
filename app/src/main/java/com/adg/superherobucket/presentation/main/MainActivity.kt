@@ -1,6 +1,8 @@
 package com.adg.superherobucket.presentation.main
 
 import android.content.Intent
+import android.text.Editable
+import android.text.TextWatcher
 import android.transition.TransitionManager
 import android.view.Menu
 import android.view.MenuItem
@@ -16,8 +18,6 @@ import com.adg.superherobucket.presentation.model.BaseViewState
 import com.adg.superherobucket.presentation.model.MainViewState
 import com.adg.superherobucket.presentation.model.State.*
 import com.adg.superherobucket.presentation.model.SuperHero
-import com.jakewharton.rxbinding3.widget.textChanges
-import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.activity_main.*
 import org.koin.android.viewmodel.ext.android.viewModel
 import java.util.concurrent.TimeUnit
@@ -30,8 +30,6 @@ class MainActivity : BaseActivity<MainViewState, MainViewModel>() {
     private var searchHidden = true
 
     private val adapter = MainAdapter(itemClick = { viewModel.superHeroOnClick(it) })
-
-    private val compositeDisposable = CompositeDisposable()
 
     //region [BaseActivityImp]
 
@@ -46,12 +44,16 @@ class MainActivity : BaseActivity<MainViewState, MainViewModel>() {
         searchHiddenCS.clone(constraintLayout)
         searchVisibleCS.clone(this, R.layout.activity_main_alt)
 
-        compositeDisposable.add(searchET.textChanges()
-            .debounce(100, TimeUnit.MILLISECONDS)
-            .subscribe {
-                viewModel.search(it.toString())
+        searchET.addTextChangedListener(object: TextWatcher {
+            override fun afterTextChanged(p0: Editable?) {}
+
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                viewModel.search(p0.toString())
             }
-        )
+
+        })
 
         superHeroesRV.layoutManager = LinearLayoutManager(this)
         superHeroesRV.adapter = adapter
@@ -123,13 +125,6 @@ class MainActivity : BaseActivity<MainViewState, MainViewModel>() {
         }
 
         return super.onOptionsItemSelected(item)
-    }
-
-    override fun onDestroy() {
-
-        compositeDisposable.dispose()
-
-        super.onDestroy()
     }
 
 }

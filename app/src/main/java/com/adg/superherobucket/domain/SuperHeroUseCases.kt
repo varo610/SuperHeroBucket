@@ -1,5 +1,7 @@
 package com.adg.superherobucket.domain
 
+import arrow.core.Either
+import com.adg.superherobucket.common.BaseError
 import com.adg.superherobucket.data.BaseEither
 import com.adg.superherobucket.data.Repository
 import com.adg.superherobucket.domain.model.toSuperHero
@@ -9,7 +11,7 @@ import com.adg.superherobucket.presentation.model.toDomainSuperHero
 class SearchSuperHeroUseCase constructor(
     private val repository: Repository
 ) {
-    suspend fun searchSuperHero(search: String): BaseEither<List<SuperHero>> {
+    suspend fun searchSuperHero(search: String): Either<BaseError, List<SuperHero>> {
 
         val searchResults = repository.searchSuperHeroes(search)
         val favs = repository.getFavoriteSuperHeros()

@@ -19,7 +19,6 @@ import org.koin.android.viewmodel.dsl.viewModel
 import org.koin.core.module.Module
 import org.koin.dsl.module
 import retrofit2.Retrofit
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
@@ -66,11 +65,11 @@ val networkModule: Module = module {
             .addNetworkInterceptor(StethoInterceptor())
             .build()
 
+
         Retrofit.Builder()
             .baseUrl(BASE_URL)
             .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
-            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .addCallAdapterFactory(CustomCallAdapterFactory.create())
             .build()
             .create(SuperHeroApiService::class.java)

@@ -8,4 +8,5 @@ abstract class BaseViewModel<T> : ViewModel(){
 
     val viewState = MutableLiveData<BaseViewState<T>>()
 
+    
 }
