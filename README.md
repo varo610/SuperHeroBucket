@@ -2,7 +2,7 @@
 SuperHero Bucket is a pet project to try out things.
 
 ## Implemented
-* **MVVM** Architecture with **Rx**
+* **MVVM** Architecture with **Coroutines**
 * REST Api integrated with **Retrofit**
 * DI with **Koin**
 * DB with **Room**
@@ -13,7 +13,6 @@ SuperHero Bucket is a pet project to try out things.
 * Improve design and functional behaviour 
 
 ## Future implementations
-* Kotlin coroutines
 * Feature separation in modules
 
 ## Developed By
