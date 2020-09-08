@@ -30,6 +30,7 @@ val viewModelModule: Module = module {
     viewModel { MainViewModel(searchSuperHeroUseCase = get()) }
     viewModel {
         DetailViewModel(
+            getFavoriteSuperHeros = get(),
             addFavoriteSuperHero = get(),
             removeFavoriteSuperHero = get()
         )

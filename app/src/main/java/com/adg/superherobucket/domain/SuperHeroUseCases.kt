@@ -17,7 +17,8 @@ class SearchSuperHeroUseCase constructor(
         val favs = repository.getFavoriteSuperHeros()
         return searchResults.map { list ->
             list.map { result ->
-                result.toSuperHero(favs.find { result.id == it.id }?.let { true } ?: kotlin.run { false })
+                result.toSuperHero(favs.find { result.id == it.id }?.let { true }
+                    ?: kotlin.run { false })
             }
         }
 
@@ -33,6 +34,10 @@ class GetFavoriteSuperHeros constructor(
             list.toSuperHero(true)
         }
     }
+
+    suspend fun isFav(id: String): Boolean = repository.getFavoriteSuperHeros().map { list ->
+        list.toSuperHero(true)
+    }.any { it.id == id }
 }
 
 class AddFavoriteSuperHero constructor(

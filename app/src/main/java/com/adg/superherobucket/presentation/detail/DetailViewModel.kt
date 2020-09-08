@@ -2,41 +2,44 @@ package com.adg.superherobucket.presentation.detail
 
 import androidx.lifecycle.viewModelScope
 import com.adg.superherobucket.domain.AddFavoriteSuperHero
+import com.adg.superherobucket.domain.GetFavoriteSuperHeros
 import com.adg.superherobucket.domain.RemoveFavoriteSuperHero
 import com.adg.superherobucket.presentation.base.BaseViewModel
 import com.adg.superherobucket.presentation.model.DetailViewState
 import com.adg.superherobucket.presentation.model.SuperHero
 import com.adg.superherobucket.presentation.utils.setSuccess
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class DetailViewModel constructor(
+    private val getFavoriteSuperHeros: GetFavoriteSuperHeros,
     private val addFavoriteSuperHero: AddFavoriteSuperHero,
     private val removeFavoriteSuperHero: RemoveFavoriteSuperHero
 ) : BaseViewModel<DetailViewState>() {
 
-    private lateinit var superHero: SuperHero
-
     fun setSuperHero(superHero: SuperHero) {
-        this.superHero = superHero
-        viewState.setSuccess(DetailViewState(this.superHero))
+        viewModelScope.async {
+            val fav = getFavoriteSuperHeros.isFav(superHero.id)
+            viewState.setSuccess(DetailViewState(superHero.copy(favorite = fav)))
+        }
     }
 
     fun favButtonOnClick() {
-        viewModelScope.launch {
-            if (superHero.favorite) {
-
-                withContext(Dispatchers.IO) { removeFavoriteSuperHero.removeFavoriteSuperHero(superHero) }
-                superHero.favorite = false
-                viewState.setSuccess(DetailViewState(superHero))
-
-            } else {
-
-                withContext(Dispatchers.IO) { addFavoriteSuperHero.addFavoriteSuperHero(superHero) }
-                superHero.favorite = true
-                viewState.setSuccess(DetailViewState(superHero))
-
+        withState {
+            viewModelScope.launch {
+                if (it.superHero.favorite) {
+                    withContext(Dispatchers.IO) {
+                        removeFavoriteSuperHero.removeFavoriteSuperHero(it.superHero)
+                    }
+                    viewState.setSuccess(DetailViewState(it.superHero.copy(favorite = false)))
+                } else {
+                    withContext(Dispatchers.IO) {
+                        addFavoriteSuperHero.addFavoriteSuperHero(it.superHero)
+                    }
+                    viewState.setSuccess(DetailViewState(it.superHero.copy(favorite = true)))
+                }
             }
         }
 

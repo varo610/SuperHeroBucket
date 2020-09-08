@@ -31,7 +31,7 @@ class DetailActivity : BaseActivity<DetailViewState, DetailViewModel>() {
 
     override fun setupView() {
 
-        viewModel.setSuperHero(superHero)
+        viewModel.setSuperHero(superHero!!)
 
         setSupportActionBar(toolbar)
 

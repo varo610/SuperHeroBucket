@@ -26,5 +26,4 @@ abstract class BaseActivity<T, S : BaseViewModel<T>> : AppCompatActivity() {
 
     abstract fun manageViewState(viewState: BaseViewState<T>?)
 
-
 }
